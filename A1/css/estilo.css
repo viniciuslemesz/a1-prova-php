@@ -3,6 +3,14 @@ body {
     color: #fff;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding-top: 50px;
+    background-image: url('imagens/fundo-pagina.jpeg');
+    background-size: cover;         
+    background-repeat: no-repeat;  
+    background-position: center;    
+    background-attachment: fixed;   
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-top: 50px;
 }
 
 h1, h2 {
