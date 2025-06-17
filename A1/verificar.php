@@ -70,4 +70,42 @@ $_SESSION['email']     = $email;
 
 header('location:dashboard.php'); // direcionado para dashboard após o login bem-sucedido
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$conexao = conectar_banco();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['usuario'], $_POST['senha'])) {
+
+    $usuario = $_POST['usuario'];
+    $senha = $_POST['senha'];
+
+    $sql = "SELECT id, senha FROM tb_funcionarios WHERE usuario = ?";
+    $stmt = mysqli_prepare($conexao, $sql);
+    mysqli_stmt_bind_param($stmt, 's', $usuario);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_store_result($stmt);
+
+    if (mysqli_stmt_num_rows($stmt) === 1) {
+        mysqli_stmt_bind_result($stmt, $id_usuario, $senha_banco);
+        mysqli_stmt_fetch($stmt);
+
+        if ($senha === $senha_banco) {
+            $_SESSION['id_usuario'] = $id_usuario;
+            $_SESSION['usuario'] = $usuario;
+
+            echo "<script>alert('Login efetuado com sucesso!'); window.location.href='dashboard.php';</script>";
+            exit;
+        } else {
+            echo "<script>alert('Senha incorreta.'); history.back();</script>";
+        }
+    } else {
+        echo "<script>alert('Usuário não encontrado.'); history.back();</script>";
+    }
+
+    mysqli_stmt_close($stmt);
+    mysqli_close($conexao);
+    exit;
+}
 ?>

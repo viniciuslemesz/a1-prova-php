@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aquario Lemes</title>
-    
-    
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
-     <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.6/dist/cerulean/bootstrap.min.css" rel="stylesheet">
-    
+    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.6/dist/cerulean/bootstrap.min.css" rel="stylesheet">
+
     <link rel="stylesheet" href="estilo.css">
 
 </head>
@@ -43,6 +42,10 @@
 
         <button type="submit" class="btn btn-success">Entrar</button>
     </form>
+
+    <p class="mt-3">
+        Não tem uma conta? <a href="dashboard2.php" class="btn btn-info">Cadastre-se</a>
+    </p>
 
     <!-- JavaScript do Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
