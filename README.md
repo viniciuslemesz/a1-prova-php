@@ -14,33 +14,38 @@ PRECISO COLOCAR
 2 - SELECT * FROM itens WHERE usuario_id = ?;
 
 
-// Recuperar o ID do peixe da URL
-$id_peixe = $_GET['id'];
+// Conexão com o banco de dados
+$conexao = conectar_banco();
 
-// Recuperar o ID do usuário logado
-$id_usuario = $_SESSION['id_usuario'];
+// Dados do peixe
+$nome_comum = $_POST['nome_comum'];
+$nome_cientifico = $_POST['nome_cientifico'] ?? '';
+$especie = $_POST['especie'] ?? '';
+$habitat = $_POST['habitat'] ?? '';
+$data_chegada = $_POST['data_chegada'];
+$id_funcionario = $_SESSION['id_usuario'];  // Usando o ID do usuário logado
 
-// Verificar se o peixe pertence ao usuário logado
-$query = "SELECT responsavel_cadastro FROM tb_peixes WHERE id_peixe = ?";
-$stmt = mysqli_prepare($conn, $query);
-mysqli_stmt_bind_param($stmt, 'i', $id_peixe);
-mysqli_stmt_execute($stmt);
-mysqli_stmt_store_result($stmt);
+// Inserção do peixe no banco de dados
+$sql = "INSERT INTO tb_peixes (nome_comum, nome_cientifico, especie, habitat, data_chegada)
+        VALUES (?, ?, ?, ?, ?)";
 
-// Se o peixe não existe
-if (mysqli_stmt_num_rows($stmt) == 0) {
-    echo "<script>alert('Peixe não encontrado.'); window.location.href='dashboard.php';</script>";
-    exit;
+$stmt = mysqli_prepare($conexao, $sql);
+
+if ($stmt) {
+    // Bind dos parâmetros
+    mysqli_stmt_bind_param($stmt, 'sssss', $nome_comum, $nome_cientifico, $especie, $habitat, $data_chegada);
+    
+    if (mysqli_stmt_execute($stmt)) {
+        echo "<script>alert('Peixe cadastrado com sucesso!'); window.location.href='dashboard.php';</script>";
+    } else {
+        echo "<script>alert('Erro ao cadastrar peixe: " . mysqli_error($conexao) . "'); history.back();</script>";
+    }
+
+    // Fechando o statement
+    mysqli_stmt_close($stmt);
+} else {
+    echo "<script>alert('Erro ao preparar o cadastro do peixe.'); history.back();</script>";
 }
 
-// Verificar se o responsável pelo cadastro do peixe é o usuário logado
-mysqli_stmt_bind_result($stmt, $responsavel_cadastro);
-mysqli_stmt_fetch($stmt);
+mysqli_close($conexao);
 
-// Se o responsável pelo peixe não for o usuário logado, redireciona
-if ($responsavel_cadastro != $id_usuario) {
-    echo "<script>alert('Você não tem permissão para editar esse peixe.'); window.location.href='dashboard.php';</script>";
-    exit;
-}
-
-// Caso contrário, permite a edição
