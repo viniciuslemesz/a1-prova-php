@@ -6,3 +6,9 @@ RESUMO: CADASTRO DE FUNCIONARIOS E CADASTRO DE ESPECIE DE PEIXES;
 usuario: vinicius / jean (criar);
 senha: vinicius123 / jean123;
 matricula: 001 / 004 ;
+
+----------------
+PRECISO COLOCAR
+
+
+2 - SELECT * FROM itens WHERE usuario_id = ?;
